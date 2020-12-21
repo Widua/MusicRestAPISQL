@@ -49,10 +49,12 @@ public class MusicManager {
     }
 
     @EventListener(ApplicationReadyEvent.class)
-    public void fillDB(){
-        save(new MusicModel("The Beatles","Yellow Submarine",1));
-        save(new MusicModel("Ray Charles","Mess Around",2));
-        save(new MusicModel("Ray Charles","Leave my woman alone",3));
+    public void fillDB() {
+        if (musicRepo.count() != 3) {
+            save(new MusicModel("The Beatles", "Yellow Submarine", 1));
+            save(new MusicModel("Ray Charles", "Mess Around", 2));
+            save(new MusicModel("Ray Charles", "Leave my woman alone", 3));
+        }
     }
 
 

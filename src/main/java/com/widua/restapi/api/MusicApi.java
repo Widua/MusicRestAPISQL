@@ -3,6 +3,7 @@ package com.widua.restapi.api;
 import com.widua.restapi.manager.MusicManager;
 import com.widua.restapi.model.MusicModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -11,40 +12,40 @@ import java.util.Optional;
 @RestController
 public class MusicApi {
 
-   private MusicManager songs;
+    private final MusicManager songs;
 
     @Autowired
     public MusicApi(MusicManager songs) {
         this.songs = songs;
     }
 
-    @GetMapping("/all")
+    @GetMapping(path = "/all", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public Iterable<MusicModel> getAll(){
         return songs.findAll();
     }
 
-    @GetMapping("/id")
-    public Optional<MusicModel> getByID(@RequestParam long id){
+    @GetMapping(path = "/id/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public Optional<MusicModel> getByID(@PathVariable long id){
         return songs.findById(id);
     }
 
-    @GetMapping("/author")
-    public Iterable<MusicModel> getByAuthor(@RequestParam String author){
+    @GetMapping(path = "/{author}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public Iterable<MusicModel> getByAuthor(@PathVariable String author){
         return songs.findByAuthor(author);
     }
 
-    @PostMapping("/add")
+    @PostMapping(path = "/add", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public MusicModel addSong(@RequestBody MusicModel musicModel){
         return songs.save(musicModel);
     }
 
-    @PutMapping("/put")
+    @PutMapping(path = "/put", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public MusicModel editSong(@RequestBody MusicModel musicModel){
         return songs.save(musicModel);
     }
 
-    @DeleteMapping("/delete")
-    public void delSongbyID(@RequestParam long id){
+    @DeleteMapping(path = "/delete/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public void delSongByID(@PathVariable long id){
         songs.deleteById(id);
     }
 
